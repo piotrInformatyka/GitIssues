@@ -2,7 +2,7 @@ using GitIssues.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAplication();
+builder.Services.AddAplication(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
