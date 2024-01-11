@@ -4,8 +4,9 @@ namespace GitIssues.Application.Infrastructure.Clients.Gitlab;
 
 internal static class GitlabClientMappings
 {
-    internal static Issue ToIssue(this GitlabClientGetIssuesItem item) => new Issue
+    internal static Issue ToIssue(this GitlabClientGetIssuesItem item) => new()
     {
+        Id = item.Id,
         Title = item.Title,
         Body = item.Body,
         State = item.State,
@@ -17,9 +18,10 @@ internal static class GitlabClientMappings
         },
     };
 
-    internal static GitlabCreateIssueItem ToGitlabRequest(this Issue issue) => new GitlabCreateIssueItem(issue.Title,
-        issue.Body, 
-        issue.CreatedAt, 
-        issue.State, 
+    internal static GitlabCreateIssueItem ToGitlabRequest(this Issue issue) => new GitlabCreateIssueItem(
+        issue.Title,
+        issue.Body,
+        issue.CreatedAt,
+        issue.State,
         new GitlabCreateIssueAuthor(issue.User.Login, issue.User.WebUrl));
 }

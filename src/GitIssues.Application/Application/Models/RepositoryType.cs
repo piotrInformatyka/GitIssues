@@ -5,8 +5,8 @@ namespace GitIssues.Application.Application.Models;
 public record RepositoryType
 {
     public string Value { get; }
-    public const string GitHub = nameof(GitHub);
-    public const string GitLab = nameof(GitLab);
+    public static string GitHub = nameof(GitHub);
+    public static string GitLab = nameof(GitLab);
 
     private RepositoryType(string value)
     {

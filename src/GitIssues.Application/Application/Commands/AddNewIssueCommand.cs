@@ -1,5 +1,5 @@
-﻿using GitIssues.Application.Application.Models;
-using GitIssues.Application.Infrastructure.Clients;
+﻿using GitIssues.Application.Application.Clients;
+using GitIssues.Application.Application.Clients.Gitlab;
 
 namespace GitIssues.Application.Application.Commands;
 
@@ -16,15 +16,11 @@ public class AddNewIssueCommandHandler
 
     public async Task<bool> Handle(AddNewIssueCommand command)
     {
-        var strategy = _gitIssueClientStrategies.SingleOrDefault(x => x.CanBeApplied(command.RepositoryType));
+        var strategy = _gitIssueClientStrategies.Single(x => x.CanBeApplied(command.RepositoryType));
 
-        var issue = new Issue
-        {
-            Title = command.Title,
-            Body = command.Body,
-        };
+        var request = new CreateNewGitIssue(command.Body, command.Title);
 
-        var result = await strategy.CreateIssueAsync(issue);
+        var result = await strategy.CreateNewIssueAsync(request);
         return result;
     }
 }

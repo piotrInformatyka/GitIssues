@@ -3,6 +3,7 @@
 namespace GitIssues.Application.Infrastructure.Clients.Gitlab;
 
 internal record GitlabClientGetIssuesItem(
+    [property: JsonPropertyName("project_id")] int Id,
     [property: JsonPropertyName("title")] string Title,
     [property: JsonPropertyName("description")] string Body,
     [property: JsonPropertyName("state")] string State,

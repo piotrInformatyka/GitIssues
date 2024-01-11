@@ -1,4 +1,6 @@
-﻿using GitIssues.Application.Application.Commands;
+﻿using GitIssues.Application.Application;
+using GitIssues.Application.Application.Clients;
+using GitIssues.Application.Application.Commands;
 using GitIssues.Application.Infrastructure.Clients;
 using GitIssues.Application.Infrastructure.Clients.Github;
 using GitIssues.Application.Infrastructure.Clients.Gitlab;
@@ -13,6 +15,9 @@ public static class DependencyInjection
     public static IServiceCollection AddAplication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<AddNewIssueCommandHandler>();
+        services.AddScoped<ExportIssuesCommandHandler>();
+        services.AddScoped<ModifyIssueCommandHandler>();
+        services.AddScoped<IFileStoreService, FileStorageService>();
 
         services.AddHttpClients(configuration);
 
@@ -21,20 +26,8 @@ public static class DependencyInjection
 
     private static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient<GithubClient>((sp, client) =>
-        {
-            client.BaseAddress = new Uri(configuration["githubApiUrl"] ?? string.Empty);
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {configuration["githubToken"] ?? string.Empty}");
-            client.DefaultRequestHeaders.Add("User-Agent", "GitHubIssueCreator");
-        });
-        services.AddHttpClient<GitlabClient>((sp, client) =>
-        {
-            client.BaseAddress = new Uri(configuration["gitlabApiUrl"] ?? string.Empty);
-            client.DefaultRequestHeaders.Add("Private-Token", configuration["gitlabToken"] ?? string.Empty);
-        });
-
-        services.AddScoped<IGitIssueClientStrategy, GithubClient>();
-        services.AddScoped<IGitIssueClientStrategy, GitlabClient>();
+        services.AddHttpClient<IGitIssueClientStrategy, GithubClient>();
+        services.AddHttpClient<IGitIssueClientStrategy, GitlabClient>();
 
         return services;
     }
