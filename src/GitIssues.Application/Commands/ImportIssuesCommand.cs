@@ -1,8 +1,9 @@
-﻿using GitIssues.Application.Application.Clients;
-using GitIssues.Application.Application.Models;
+﻿using GitIssues.Application.Clients;
+using GitIssues.Application.Models;
+using GitIssues.Application.Services;
 using System.Text.Json;
 
-namespace GitIssues.Application.Application.Commands;
+namespace GitIssues.Application.Commands;
 
 public record ImportIssuesCommand(string RepositoryType);
 
@@ -21,12 +22,11 @@ public class ImportIssuesCommandHandler
     {
         var issuesJson = await _fileStoreService.ReadFromFile();
         var issues = JsonSerializer.Deserialize<IEnumerable<Issue>>(issuesJson);
-        if(issues is null)
+        if (issues is null)
             throw new Exception("Issues are null");
 
         var tasks = issues.Select(x => _gitIssueClientStrategies.Single(x => x.CanBeApplied(command.RepositoryType)).CreateNewIssueAsync(new(x.Body, x.Title)));
         var results = await Task.WhenAll(tasks);
-        //log results with false;
 
         return results.All(x => x);
     }

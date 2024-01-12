@@ -1,6 +1,6 @@
-﻿using GitIssues.Application.Application.Exceptions;
+﻿using GitIssues.Application.Exceptions;
 
-namespace GitIssues.Application.Application.Models;
+namespace GitIssues.Application.Models;
 
 public record RepositoryType
 {
@@ -10,7 +10,7 @@ public record RepositoryType
 
     private RepositoryType(string value)
     {
-        if(value != GitHub && value != GitLab)
+        if (value != GitHub && value != GitLab)
         {
             throw new InvalidRepositoryTypeException(value);
         }

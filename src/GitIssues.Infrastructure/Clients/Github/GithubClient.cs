@@ -1,13 +1,13 @@
-﻿using GitIssues.Application.Application.Clients;
-using GitIssues.Application.Application.Clients.Gitlab;
-using GitIssues.Application.Application.Models;
+﻿using GitIssues.Application.Clients;
+using GitIssues.Application.Models;
+using GitIssues.Infrastructure.Clients.Github;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 using System.Text.Json;
 
 namespace GitIssues.Application.Infrastructure.Clients.Github;
 
-public class GithubClient : IGitIssueClientStrategy
+internal sealed class GithubClient : IGitIssueClientStrategy
 {
     private readonly HttpClient _httpClient;
     private readonly string _owner;
@@ -28,7 +28,7 @@ public class GithubClient : IGitIssueClientStrategy
     public async Task<IEnumerable<Issue>> GetIssuesAsync()
     {
         var response = await _httpClient.GetAsync($"/repos/{_owner}/{_repo}/issues");
-        var result = await response.DeserializeResponse<IEnumerable<GithubIssueItem>>();
+        var result = await response.DeserializeResponse<IEnumerable<GithubIssueItemResponse>>();
 
         return result is null ? throw new Exception("Response is empty") : result.Select(x => x.ToIssue());
     }
@@ -38,6 +38,17 @@ public class GithubClient : IGitIssueClientStrategy
         var request = JsonSerializer.Serialize(issue.ToGithubRequest());
 
         var content = new StringContent(request, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues", content);
+        if (response.IsSuccessStatusCode)
+            return true;
+        return false;
+    }
+
+    public async Task<bool> CreateIssueAsync(CreateGitIssueItem request)
+    {
+        var requst = JsonSerializer.Serialize(request.ToGithubRequest());
+
+        var content = new StringContent(requst, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues", content);
         if (response.IsSuccessStatusCode)
             return true;

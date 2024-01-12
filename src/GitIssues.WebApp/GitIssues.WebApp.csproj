@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GitIssues.Application\GitIssues.Application.csproj" />
+    <ProjectReference Include="..\GitIssues.Infrastructure\GitIssues.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

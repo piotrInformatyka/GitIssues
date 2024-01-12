@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitIssues.WebApp", "src\GitIssues.WebApp\GitIssues.WebApp.csproj", "{B18079D2-A1E7-4F6F-952D-3B692F6AD88D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitIssues.WebApp", "src\GitIssues.WebApp\GitIssues.WebApp.csproj", "{B18079D2-A1E7-4F6F-952D-3B692F6AD88D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5191FF6F-E89D-4887-A573-E34E272390D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitIssues.Application", "src\GitIssues.Application\GitIssues.Application.csproj", "{A8AF4706-6C29-47A8-859B-657E1CFB7AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitIssues.Application", "src\GitIssues.Application\GitIssues.Application.csproj", "{A8AF4706-6C29-47A8-859B-657E1CFB7AB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitIssues.Infrastructure", "src\GitIssues.Infrastructure\GitIssues.Infrastructure.csproj", "{4640B39F-4DB9-4B47-A73D-CB8ED9F05E21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{A8AF4706-6C29-47A8-859B-657E1CFB7AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8AF4706-6C29-47A8-859B-657E1CFB7AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8AF4706-6C29-47A8-859B-657E1CFB7AB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4640B39F-4DB9-4B47-A73D-CB8ED9F05E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4640B39F-4DB9-4B47-A73D-CB8ED9F05E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4640B39F-4DB9-4B47-A73D-CB8ED9F05E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4640B39F-4DB9-4B47-A73D-CB8ED9F05E21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B18079D2-A1E7-4F6F-952D-3B692F6AD88D} = {5191FF6F-E89D-4887-A573-E34E272390D6}
 		{A8AF4706-6C29-47A8-859B-657E1CFB7AB8} = {5191FF6F-E89D-4887-A573-E34E272390D6}
+		{4640B39F-4DB9-4B47-A73D-CB8ED9F05E21} = {5191FF6F-E89D-4887-A573-E34E272390D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {093DEB4F-77B1-471B-A16D-34DAA47B5DAF}

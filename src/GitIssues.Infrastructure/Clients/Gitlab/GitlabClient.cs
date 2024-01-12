@@ -1,13 +1,14 @@
-﻿using GitIssues.Application.Application.Clients;
-using GitIssues.Application.Application.Clients.Gitlab;
-using GitIssues.Application.Application.Models;
+﻿using GitIssues.Application.Clients;
+using GitIssues.Application.Infrastructure.Clients;
+using GitIssues.Application.Infrastructure.Clients.Gitlab;
+using GitIssues.Application.Models;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 using System.Text.Json;
 
-namespace GitIssues.Application.Infrastructure.Clients.Gitlab;
+namespace GitIssues.Infrastructure.Clients.Gitlab;
 
-public class GitlabClient : IGitIssueClientStrategy
+internal sealed class GitlabClient : IGitIssueClientStrategy
 {
     private readonly HttpClient _httpClient;
     private readonly string _owner;
@@ -36,7 +37,19 @@ public class GitlabClient : IGitIssueClientStrategy
     public async Task<bool> CreateNewIssueAsync(CreateNewGitIssue issue)
     {
         var projectPath = Uri.EscapeDataString($"{_owner}/{_repo}");
-        var request = JsonSerializer.Serialize(issue);
+        var request = JsonSerializer.Serialize(issue.ToGitlabRequest());
+        var content = new StringContent(request, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync($"/api/v4/projects/{projectPath}/issues", content);
+
+        if (response.IsSuccessStatusCode)
+            return true;
+        return false;
+    }
+
+    public async Task<bool> CreateIssueAsync(CreateGitIssueItem issue)
+    {
+        var projectPath = Uri.EscapeDataString($"{_owner}/{_repo}");
+        var request = JsonSerializer.Serialize(issue.ToGitlabRequest());
         var content = new StringContent(request, Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync($"/api/v4/projects/{projectPath}/issues", content);
 

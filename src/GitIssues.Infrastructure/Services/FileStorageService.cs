@@ -1,8 +1,7 @@
-﻿using GitIssues.Application.Application;
-using Microsoft.AspNetCore.Hosting;
+﻿using GitIssues.Application.Services;
 using Microsoft.Extensions.Hosting;
 
-namespace GitIssues.Application.Infrastructure.Clients;
+namespace GitIssues.Infrastructure.Services;
 
 internal sealed class FileStorageService : IFileStoreService
 {

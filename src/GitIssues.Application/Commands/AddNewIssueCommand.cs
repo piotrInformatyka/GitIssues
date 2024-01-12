@@ -1,7 +1,6 @@
-﻿using GitIssues.Application.Application.Clients;
-using GitIssues.Application.Application.Clients.Gitlab;
+﻿using GitIssues.Application.Clients;
 
-namespace GitIssues.Application.Application.Commands;
+namespace GitIssues.Application.Commands;
 
 public record AddNewIssueCommand(string Title, string Body, string RepositoryType);
 

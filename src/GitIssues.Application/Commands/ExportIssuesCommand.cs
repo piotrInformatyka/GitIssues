@@ -1,7 +1,8 @@
-﻿using GitIssues.Application.Application.Clients;
+﻿using GitIssues.Application.Clients;
+using GitIssues.Application.Services;
 using System.Text.Json;
 
-namespace GitIssues.Application.Application.Commands;
+namespace GitIssues.Application.Commands;
 
 public class ExportIssuesCommandHandler
 {

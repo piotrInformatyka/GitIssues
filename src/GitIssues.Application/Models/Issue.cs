@@ -1,4 +1,4 @@
-﻿namespace GitIssues.Application.Application.Models;
+﻿namespace GitIssues.Application.Models;
 
 public class Issue
 {

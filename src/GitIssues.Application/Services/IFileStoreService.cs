@@ -1,4 +1,4 @@
-﻿namespace GitIssues.Application.Application
+﻿namespace GitIssues.Application.Services
 {
     public interface IFileStoreService
     {

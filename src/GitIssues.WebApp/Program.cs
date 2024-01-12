@@ -1,8 +1,11 @@
 using GitIssues.Application;
+using GitIssues.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAplication(builder.Configuration);
+builder.Services
+    .AddAplication()
+    .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

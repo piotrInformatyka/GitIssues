@@ -1,5 +1,4 @@
-using GitIssues.Application.Application.Commands;
-using GitIssues.Application.Application.Models;
+using GitIssues.Application.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GitIssues.WebApp.Controllers

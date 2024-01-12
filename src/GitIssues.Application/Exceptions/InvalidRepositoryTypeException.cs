@@ -1,4 +1,4 @@
-﻿namespace GitIssues.Application.Application.Exceptions;
+﻿namespace GitIssues.Application.Exceptions;
 
 public sealed class InvalidRepositoryTypeException : Exception
 {
