@@ -27,6 +27,7 @@ public class ImportIssuesCommandHandler
 
         var tasks = issues.Select(x => _gitIssueClientStrategies.Single(x => x.CanBeApplied(command.RepositoryType)).CreateNewIssueAsync(new(x.Body, x.Title)));
         var results = await Task.WhenAll(tasks);
+        //log dead issues
 
         return results.All(x => x);
     }

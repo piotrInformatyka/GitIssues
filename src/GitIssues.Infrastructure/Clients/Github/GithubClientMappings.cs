@@ -11,19 +11,23 @@ public static class GithubClientMappings
         Id = item.Id,
         Title = item.Title,
         Body = item.Body,
-        State = item.State,
+        State = item.State == "open" ? IssueState.Open : IssueState.Closed,
         CreatedAt = item.CreatedAt,
         User = new User
         {
             Login = item.User.Login,
             WebUrl = item.User.Url
         },
+        RepositoryType = RepositoryType.GitHub
+        
     };
 
     internal static ModifyGithubItem ToGithubRequest(this ModifyGitIssueItem request) => new(request.Title, request.Description, request.Id);
 
     internal static GithubCreateNewIssueItem ToGithubRequest(this CreateNewGitIssue request) => new(request.Title, request.Description);
 
-    internal static GithubCreateIssueItem ToGithubRequest(this CreateGitIssueItem item) => new(item.Title, item.Description, item.State, item.CreatedAt,
-               new GithubCreateIssueAuthor(item.Author.Username, item.Author.Url));
+    internal static GithubCreateIssueItem ToGithubRequest(this CreateGitIssueItem item) => new(item.Title, item.Description, 
+        item.State == IssueState.Open ? "opened" : "closed", 
+        item.CreatedAt,
+        new GithubCreateIssueAuthor(item.Author.Username, item.Author.Url));
 }

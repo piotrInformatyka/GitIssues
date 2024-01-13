@@ -9,6 +9,7 @@ public static class DependencyInjection
     {
         services.AddScoped<AddNewIssueCommandHandler>();
         services.AddScoped<ExportIssuesCommandHandler>();
+        services.AddScoped<ImportIssuesCommandHandler>();
         services.AddScoped<ModifyIssueCommandHandler>();
 
         return services;

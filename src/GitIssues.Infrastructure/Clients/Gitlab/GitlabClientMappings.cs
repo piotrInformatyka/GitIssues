@@ -12,16 +12,18 @@ internal static class GitlabClientMappings
         Id = item.Id,
         Title = item.Title,
         Body = item.Body,
-        State = item.State,
+        State = item.State == "opened" ? IssueState.Open : IssueState.Closed,
         CreatedAt = item.CreatedAt,
         User = new User
         {
             Login = item.Author.Username,
             WebUrl = item.Author.Url
         },
+        RepositoryType = RepositoryType.GitLab
     };
 
-    internal static GitlabCreateIssueItem ToGitlabRequest(this CreateGitIssueItem issue) => new(issue.Title, issue.Description, issue.CreatedAt, issue.State,
+    internal static GitlabCreateIssueItem ToGitlabRequest(this CreateGitIssueItem issue) => new(issue.Title, issue.Description, issue.CreatedAt, 
+        issue.State == IssueState.Open ? "opened" : "closed",
         new GitlabCreateIssueAuthor(issue.Author.Username, issue.Author.Url));
 
     internal static GithubCreateNewIssueItem ToGitlabRequest(this CreateNewGitIssue request) => new(request.Title, request.Description);

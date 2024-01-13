@@ -8,7 +8,7 @@ public record RepositoryType
     public static string GitHub = nameof(GitHub);
     public static string GitLab = nameof(GitLab);
 
-    private RepositoryType(string value)
+    public RepositoryType(string value)
     {
         if (value != GitHub && value != GitLab)
         {
