@@ -26,9 +26,9 @@ internal static class GitlabClientMappings
         issue.State == IssueState.Open ? "opened" : "closed",
         new GitlabCreateIssueAuthor(issue.Author.Username, issue.Author.Url));
 
-    internal static GithubCreateNewIssueItem ToGitlabRequest(this CreateNewGitIssue request) => new(request.Title, request.Description);
+    internal static GitlabCreateNewIssueItem ToGitlabRequest(this CreateNewGitIssue request) => new(request.Title, request.Description);
 
-    //internal static ModifyGithubItem ToGitlabRequest(this ModifyGitIssueItem request) => new(request.Title, request.Description, request.Id);
+    internal static ModifyGitlabItem ToGitlabRequest(this ModifyGitIssueItem request) => new(request.Title, request.Description, request.Id);
 
 
 }

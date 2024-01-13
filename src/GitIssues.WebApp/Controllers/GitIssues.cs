@@ -24,9 +24,9 @@ namespace GitIssues.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIssue()
+        public async Task<IActionResult> CreateIssue(string title, string description, string repositoryType)
         {
-            var result = await _addNewIssueCommandHandler.Handle(new AddNewIssueCommand("Gitlab - 3 - created by api", "Test", "GitLab"));
+            var result = await _addNewIssueCommandHandler.Handle(new AddNewIssueCommand(title, description, repositoryType));
             return Ok(result);
         }
 
@@ -46,7 +46,7 @@ namespace GitIssues.WebApp.Controllers
 
 
 
-        [HttpPost("issueId")]
+        [HttpPatch("issueId")]
         public async Task<IActionResult> ModifyIssue(int issueId, ModifyIssueCommand request)
         {
             var result = await _modifyIssueCommandHandler.Handle(request with { IssueId = issueId });

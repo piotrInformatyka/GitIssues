@@ -1,6 +1,7 @@
 ﻿using GitIssues.Application.Clients;
 using GitIssues.Application.Models;
 using GitIssues.Infrastructure.Clients.Github;
+using GitIssues.Infrastructure.Exceptions;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 using System.Text.Json;
@@ -33,35 +34,37 @@ internal sealed class GithubClient : IGitIssueClientStrategy
         return result is null ? throw new Exception("Response is empty") : result.Select(x => x.ToIssue());
     }
 
-    public async Task<bool> CreateNewIssueAsync(CreateNewGitIssue issue)
+    public async Task<bool> CreateNewIssueAsync(CreateNewGitIssue request)
     {
-        var request = JsonSerializer.Serialize(issue.ToGithubRequest());
-
-        var content = new StringContent(request, Encoding.UTF8, "application/json");
+        var content = GetContent(request.ToGithubRequest());
         var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues", content);
-        if (response.IsSuccessStatusCode)
-            return true;
-        return false;
+        return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> CreateIssueAsync(CreateGitIssueItem request)
     {
-        var requst = JsonSerializer.Serialize(request.ToGithubRequest());
-
-        var content = new StringContent(requst, Encoding.UTF8, "application/json");
+        var content = GetContent(request.ToGithubRequest());
         var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues", content);
-        if (response.IsSuccessStatusCode)
-            return true;
-        return false;
+        return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> ModifyIssueAsync(ModifyGitIssueItem request)
     {
-        var requst = JsonSerializer.Serialize(request.ToGithubRequest());
-        var content = new StringContent(requst, Encoding.UTF8, "application/json");
+        var content = GetContent(request.ToGithubRequest());
         var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues/{request.Id}", content);
-        if (response.IsSuccessStatusCode)
-            return true;
-        return false;
+        return response.IsSuccessStatusCode;
+    }
+
+    private static StringContent GetContent<T>(T issue)
+    {
+        try
+        {
+            var request = JsonSerializer.Serialize(new { issue });
+            return new StringContent(request, Encoding.UTF8, "application/json");
+        }
+        catch
+        {
+            throw new SerializeRequestException(typeof(T).Name);
+        }
     }
 }

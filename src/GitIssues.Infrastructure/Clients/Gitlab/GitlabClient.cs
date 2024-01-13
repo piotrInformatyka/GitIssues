@@ -2,6 +2,7 @@
 using GitIssues.Application.Infrastructure.Clients;
 using GitIssues.Application.Infrastructure.Clients.Gitlab;
 using GitIssues.Application.Models;
+using GitIssues.Infrastructure.Exceptions;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 using System.Text.Json;
@@ -27,7 +28,7 @@ internal sealed class GitlabClient : IGitIssueClientStrategy
 
     public async Task<IEnumerable<Issue>> GetIssuesAsync()
     {
-        var projectPath = Uri.EscapeDataString($"{_owner.ToLower()}/{_repo.ToLower()}");
+        var projectPath = GetProjectPath();
         var response = await _httpClient.GetAsync($"api/v4/projects/{projectPath}/issues");
         var result = await response.DeserializeResponse<IEnumerable<GitlabClientGetIssuesItem>>();
 
@@ -36,30 +37,42 @@ internal sealed class GitlabClient : IGitIssueClientStrategy
 
     public async Task<bool> CreateNewIssueAsync(CreateNewGitIssue issue)
     {
-        var projectPath = Uri.EscapeDataString($"{_owner}/{_repo}");
-        var request = JsonSerializer.Serialize(issue.ToGitlabRequest());
-        var content = new StringContent(request, Encoding.UTF8, "application/json");
+        var (projectPath, content) = GetProjectPathAndRequest(issue.ToGitlabRequest());
         var response = await _httpClient.PostAsync($"/api/v4/projects/{projectPath}/issues", content);
 
-        if (response.IsSuccessStatusCode)
-            return true;
-        return false;
+        return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> CreateIssueAsync(CreateGitIssueItem issue)
     {
-        var projectPath = Uri.EscapeDataString($"{_owner}/{_repo}");
-        var request = JsonSerializer.Serialize(issue.ToGitlabRequest());
-        var content = new StringContent(request, Encoding.UTF8, "application/json");
+        var (projectPath, content) = GetProjectPathAndRequest(issue.ToGitlabRequest());
         var response = await _httpClient.PostAsync($"/api/v4/projects/{projectPath}/issues", content);
 
-        if (response.IsSuccessStatusCode)
-            return true;
-        return false;
+        return response.IsSuccessStatusCode;
     }
 
-    public Task<bool> ModifyIssueAsync(ModifyGitIssueItem request)
+    public async Task<bool> ModifyIssueAsync(ModifyGitIssueItem issue)
     {
-        throw new NotImplementedException();
+        var (projectPath, content) = GetProjectPathAndRequest(issue.ToGitlabRequest());
+        var response = await _httpClient.PutAsync($"/api/v4/projects/{projectPath}/issues/{issue.Id}", content);
+
+        return response.IsSuccessStatusCode;
     }
+
+    private string GetProjectPath() => Uri.EscapeDataString($"{_owner}/{_repo}");
+
+    private (string projectPath, StringContent content) GetProjectPathAndRequest<T>(T issue)
+    {
+        try
+        {
+            var request = JsonSerializer.Serialize(new { issue });
+            var content = new StringContent(request, Encoding.UTF8, "application/json");
+            return (GetProjectPath(), content);
+        }
+        catch
+        {
+            throw new SerializeRequestException(typeof(T).Name);
+        }
+    }
+
 }

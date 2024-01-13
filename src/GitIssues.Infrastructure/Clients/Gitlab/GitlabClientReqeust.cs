@@ -11,4 +11,13 @@ internal record GitlabCreateIssueItem(
 
 internal record GitlabCreateIssueAuthor(
     [property: JsonPropertyName("username")] string Username,
-       [property: JsonPropertyName("web_url")] string Url);
+    [property: JsonPropertyName("web_url")] string Url);
+
+internal record ModifyGitlabItem(
+    [property: JsonPropertyName("title")] string Title,
+    [property: JsonPropertyName("description")] string Description,
+    int Id);
+
+internal record GitlabCreateNewIssueItem(
+       [property: JsonPropertyName("title")] string Title,
+       [property: JsonPropertyName("description")] string Body);
