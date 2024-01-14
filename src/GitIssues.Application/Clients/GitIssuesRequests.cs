@@ -2,7 +2,8 @@
 
 namespace GitIssues.Application.Clients;
 
-public record CreateGitIssueItem(string Title, string Description, DateTime CreatedAt, IssueState State, GitIssueAuthorResponse Author);
-public record CreateGitIssueAuthor(string Username, string Url);
-public record CreateNewGitIssue(string Title, string Description);
-public record ModifyGitIssueItem(string Title, string Description, int Id);
+public record CreateIssueItem(string Title, string Description, DateTime CreatedAt, IssueState State, GitIssueAuthorResponse Author);
+public record CreateIssueAuthor(string Username, string Url);
+public record CreateNewIssue(string Title, string Description);
+public record ModifyIssueItem(string Title, string Description, int Id);
+public record CloseIssue(IssueState State, int Id);

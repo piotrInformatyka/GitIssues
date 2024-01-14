@@ -32,10 +32,10 @@ internal sealed class GitlabClient : IGitIssueClientStrategy
         var response = await _httpClient.GetAsync($"api/v4/projects/{projectPath}/issues");
         var result = await response.DeserializeResponse<IEnumerable<GitlabClientGetIssuesItem>>();
 
-        return result is null ? throw new Exception("Response is empty") : result.Select(x => x.ToIssue());
+        return result is null ? throw new Exception("Response is null") : result.Select(x => x.ToIssue());
     }
 
-    public async Task<bool> CreateNewIssueAsync(CreateNewGitIssue issue)
+    public async Task<bool> CreateNewIssueAsync(CreateNewIssue issue)
     {
         var (projectPath, content) = GetProjectPathAndRequest(issue.ToGitlabRequest());
         var response = await _httpClient.PostAsync($"/api/v4/projects/{projectPath}/issues", content);
@@ -43,7 +43,7 @@ internal sealed class GitlabClient : IGitIssueClientStrategy
         return response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> CreateIssueAsync(CreateGitIssueItem issue)
+    public async Task<bool> CreateIssueAsync(CreateIssueItem issue)
     {
         var (projectPath, content) = GetProjectPathAndRequest(issue.ToGitlabRequest());
         var response = await _httpClient.PostAsync($"/api/v4/projects/{projectPath}/issues", content);
@@ -51,7 +51,15 @@ internal sealed class GitlabClient : IGitIssueClientStrategy
         return response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> ModifyIssueAsync(ModifyGitIssueItem issue)
+    public async Task<bool> ModifyIssueAsync(ModifyIssueItem issue)
+    {
+        var (projectPath, content) = GetProjectPathAndRequest(issue.ToGitlabRequest());
+        var response = await _httpClient.PutAsync($"/api/v4/projects/{projectPath}/issues/{issue.Id}", content);
+
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<bool> CloseIssueAsync(CloseIssue issue)
     {
         var (projectPath, content) = GetProjectPathAndRequest(issue.ToGitlabRequest());
         var response = await _httpClient.PutAsync($"/api/v4/projects/{projectPath}/issues/{issue.Id}", content);

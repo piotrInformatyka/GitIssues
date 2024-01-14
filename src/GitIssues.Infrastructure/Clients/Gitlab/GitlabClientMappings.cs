@@ -22,13 +22,13 @@ internal static class GitlabClientMappings
         RepositoryType = RepositoryType.GitLab
     };
 
-    internal static GitlabCreateIssueItem ToGitlabRequest(this CreateGitIssueItem issue) => new(issue.Title, issue.Description, issue.CreatedAt, 
+    internal static GitlabCreateIssueItem ToGitlabRequest(this CreateIssueItem issue) => new(issue.Title, issue.Description, issue.CreatedAt, 
         issue.State == IssueState.Open ? "opened" : "closed",
         new GitlabCreateIssueAuthor(issue.Author.Username, issue.Author.Url));
 
-    internal static GitlabCreateNewIssueItem ToGitlabRequest(this CreateNewGitIssue request) => new(request.Title, request.Description);
+    internal static GitlabCreateNewIssueItem ToGitlabRequest(this CreateNewIssue request) => new(request.Title, request.Description);
 
-    internal static ModifyGitlabItem ToGitlabRequest(this ModifyGitIssueItem request) => new(request.Title, request.Description, request.Id);
+    internal static ModifyGitlabItem ToGitlabRequest(this ModifyIssueItem request) => new(request.Title, request.Description, request.Id);
 
-
+    internal static CloseGitlabIssue ToGitlabRequest(this CloseIssue request) => new(request.State == IssueState.Open ? "opened" : "closed", request.Id);
 }

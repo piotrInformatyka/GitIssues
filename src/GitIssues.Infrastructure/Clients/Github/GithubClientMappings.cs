@@ -22,12 +22,14 @@ public static class GithubClientMappings
         
     };
 
-    internal static ModifyGithubItem ToGithubRequest(this ModifyGitIssueItem request) => new(request.Title, request.Description, request.Id);
+    internal static ModifyGithubItem ToGithubRequest(this ModifyIssueItem request) => new(request.Title, request.Description, request.Id);
 
-    internal static GithubCreateNewIssueItem ToGithubRequest(this CreateNewGitIssue request) => new(request.Title, request.Description);
+    internal static GithubCreateNewIssueItem ToGithubRequest(this CreateNewIssue request) => new(request.Title, request.Description);
 
-    internal static GithubCreateIssueItem ToGithubRequest(this CreateGitIssueItem item) => new(item.Title, item.Description, 
+    internal static GithubCreateIssueItem ToGithubRequest(this CreateIssueItem item) => new(item.Title, item.Description, 
         item.State == IssueState.Open ? "opened" : "closed", 
         item.CreatedAt,
         new GithubCreateIssueAuthor(item.Author.Username, item.Author.Url));
+
+    internal static CloseGithubIssue ToGithubRequest(this CloseIssue request) => new(request.State == IssueState.Open ? "open" : "closed", request.Id);
 }

@@ -17,7 +17,7 @@ public class ModifyIssueCommandHandler
     {
         var strategy = _gitIssueClientStrategies.Single(x => x.CanBeApplied(command.RepositoryType));
 
-        var request = new ModifyGitIssueItem(command.Title, command.Body, command.IssueId);
+        var request = new ModifyIssueItem(command.Title, command.Body, command.IssueId);
 
         var result = await strategy.ModifyIssueAsync(request);
         return result;

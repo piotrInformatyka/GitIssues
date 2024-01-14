@@ -22,3 +22,6 @@ internal record ModifyGithubItem(
     [property: JsonPropertyName("body")] string Description, 
     int Id);
 
+internal record CloseGithubIssue(
+    [property: JsonPropertyName("state")] string State,
+    int Id);

@@ -21,3 +21,7 @@ internal record ModifyGitlabItem(
 internal record GitlabCreateNewIssueItem(
        [property: JsonPropertyName("title")] string Title,
        [property: JsonPropertyName("description")] string Body);
+
+internal record CloseGitlabIssue(
+    [property: JsonPropertyName("state")] string State,
+    int Id);

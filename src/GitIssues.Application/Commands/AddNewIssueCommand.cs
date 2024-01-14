@@ -17,7 +17,7 @@ public class AddNewIssueCommandHandler
     {
         var strategy = _gitIssueClientStrategies.Single(x => x.CanBeApplied(command.RepositoryType));
 
-        var request = new CreateNewGitIssue(command.Body, command.Title);
+        var request = new CreateNewIssue(command.Body, command.Title);
 
         var result = await strategy.CreateNewIssueAsync(request);
         return result;

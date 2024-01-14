@@ -34,21 +34,28 @@ internal sealed class GithubClient : IGitIssueClientStrategy
         return result is null ? throw new Exception("Response is empty") : result.Select(x => x.ToIssue());
     }
 
-    public async Task<bool> CreateNewIssueAsync(CreateNewGitIssue request)
+    public async Task<bool> CreateNewIssueAsync(CreateNewIssue request)
     {
         var content = GetContent(request.ToGithubRequest());
         var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues", content);
         return response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> CreateIssueAsync(CreateGitIssueItem request)
+    public async Task<bool> CreateIssueAsync(CreateIssueItem request)
     {
         var content = GetContent(request.ToGithubRequest());
         var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues", content);
         return response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> ModifyIssueAsync(ModifyGitIssueItem request)
+    public async Task<bool> ModifyIssueAsync(ModifyIssueItem request)
+    {
+        var content = GetContent(request.ToGithubRequest());
+        var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues/{request.Id}", content);
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<bool> CloseIssueAsync(CloseIssue request)
     {
         var content = GetContent(request.ToGithubRequest());
         var response = await _httpClient.PostAsync($"/repos/{_owner}/{_repo}/issues/{request.Id}", content);
