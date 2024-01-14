@@ -14,13 +14,13 @@ public class CloseIssueCommandHandler
         _gitIssueClientStrategies = gitIssueClientStrategies;
     }
 
-    public async Task<bool> Handle(ModifyIssueCommand command)
+    public async Task<bool> Handle(CloseIssueCommand command)
     {
         var strategy = _gitIssueClientStrategies.Single(x => x.CanBeApplied(command.RepositoryType));
 
-        var request = new ModifyIssueItem(command.Title, command.Body, command.IssueId);
+        var request = new CloseIssue(command.State, command.IssueId);
 
-        var result = await strategy.ModifyIssueAsync(request);
+        var result = await strategy.CloseIssueAsync(request);
         return result;
     }
 }
