@@ -66,7 +66,7 @@ internal sealed class GithubClient : IGitIssueClientStrategy
     {
         try
         {
-            var request = JsonSerializer.Serialize(new { issue });
+            var request = JsonSerializer.Serialize(issue);
             return new StringContent(request, Encoding.UTF8, "application/json");
         }
         catch

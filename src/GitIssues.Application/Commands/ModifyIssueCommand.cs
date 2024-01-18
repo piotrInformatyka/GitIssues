@@ -19,7 +19,6 @@ public class ModifyIssueCommandHandler
 
         var request = new ModifyIssueItem(command.Title, command.Body, command.IssueId);
 
-        var result = await strategy.ModifyIssueAsync(request);
-        return result;
+        return await strategy.ModifyIssueAsync(request);
     }
 }

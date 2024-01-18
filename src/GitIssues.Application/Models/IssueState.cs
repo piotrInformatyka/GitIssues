@@ -13,7 +13,7 @@ public record IssueState
     {
         if (value != Open && value != Closed)
         {
-            throw new Exception("Invalid issue type");
+            throw new InvalidIssueStateException("Invalid issue type");
         }
         Value = value;
     }

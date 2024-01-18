@@ -19,7 +19,6 @@ public class AddNewIssueCommandHandler
 
         var request = new CreateNewIssue(command.Body, command.Title);
 
-        var result = await strategy.CreateNewIssueAsync(request);
-        return result;
+        return await strategy.CreateNewIssueAsync(request);
     }
 }

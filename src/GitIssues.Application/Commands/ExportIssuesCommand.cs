@@ -21,8 +21,7 @@ public class ExportIssuesCommandHandler
         var results = await Task.WhenAll(tasks);
 
         var gitIssuesJson = JsonSerializer.Serialize(results.SelectMany(x => x));
-        var result = await _fileStoreService.WriteToFile(gitIssuesJson);
 
-        return result;
+        return await _fileStoreService.WriteToFile(gitIssuesJson);
     }
 }

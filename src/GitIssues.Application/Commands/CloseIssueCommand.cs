@@ -20,7 +20,6 @@ public class CloseIssueCommandHandler
 
         var request = new CloseIssue(command.State, command.IssueId);
 
-        var result = await strategy.CloseIssueAsync(request);
-        return result;
+        return await strategy.CloseIssueAsync(request);
     }
 }

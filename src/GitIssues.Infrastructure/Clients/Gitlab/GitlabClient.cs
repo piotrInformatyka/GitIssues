@@ -73,7 +73,7 @@ internal sealed class GitlabClient : IGitIssueClientStrategy
     {
         try
         {
-            var request = JsonSerializer.Serialize(new { issue });
+            var request = JsonSerializer.Serialize(issue);
             var content = new StringContent(request, Encoding.UTF8, "application/json");
             return (GetProjectPath(), content);
         }

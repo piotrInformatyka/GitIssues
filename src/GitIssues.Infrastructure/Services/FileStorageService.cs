@@ -34,7 +34,7 @@ internal sealed class FileStorageService : IFileStoreService
         }
         catch
         {
-            //throw
+            //log or throw
         }
         return false;
     }

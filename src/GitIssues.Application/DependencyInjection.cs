@@ -11,6 +11,7 @@ public static class DependencyInjection
         services.AddScoped<ExportIssuesCommandHandler>();
         services.AddScoped<ImportIssuesCommandHandler>();
         services.AddScoped<ModifyIssueCommandHandler>();
+        services.AddScoped<CloseIssueCommandHandler>();
 
         return services;
     }
